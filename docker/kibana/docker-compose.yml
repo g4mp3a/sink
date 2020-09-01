@@ -1,0 +1,6 @@
+version: '2'
+services:
+  kibana:
+    image: docker.elastic.co/kibana/kibana:5.6.16
+    environment:
+      ELASTICSEARCH_URL: http://<elasticsearch_service_name>:9200

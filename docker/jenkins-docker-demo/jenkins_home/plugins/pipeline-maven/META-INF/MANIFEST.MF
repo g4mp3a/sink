@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: alobato
+Build-Jdk: 1.8.0_112
+Extension-Name: pipeline-maven
+Specification-Title: This plugin provides integration with Pipeline, c
+ onfigures maven environment to use within a pipeline job by calling s
+ h mvn or bat mvn.
+     The selected maven installation will be configured and prepended 
+ to the path.
+Implementation-Title: pipeline-maven
+Implementation-Version: 2.0
+Group-Id: org.jenkins-ci.plugins
+Short-Name: pipeline-maven
+Long-Name: Pipeline Maven Integration Plugin
+Url: https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Maven+Plugin
+Plugin-Version: 2.0
+Hudson-Version: 1.642.4
+Jenkins-Version: 1.642.4
+Plugin-Dependencies: workflow-step-api:2.9,config-file-provider:2.15.1
+ ,junit:1.18;resolution:=optional,matrix-project:1.8,structs:1.5,findb
+ ugs:4.69;resolution:=optional,tasks:4.50;resolution:=optional
+Plugin-Developers: Alvaro Lobato:alvarolobato:alobato@cloudbees.com
+
