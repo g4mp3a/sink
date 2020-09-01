@@ -1,0 +1,248 @@
+> x = c("Joe", "Bob", "Mary", "Chan", "Joe", "Bob", "Bob", "Chan", "Mary", "Poppy", "Mary")
+> x
+ [1] "Joe"   "Bob"   "Mary"  "Chan"  "Joe"   "Bob"   "Bob"   "Chan"  "Mary"  "Poppy" "Mary" 
+> 
+> typeof(x)
+[1] "character"
+> class(x)
+[1] "character"
+> mode(x)
+[1] "character"
+> unclass(x)
+ [1] "Joe"   "Bob"   "Mary"  "Chan"  "Joe"   "Bob"   "Bob"   "Chan"  "Mary"  "Poppy" "Mary" 
+> 
+> 
+> f = factor(x, levels=c("Joe", "Bob", "Mary"))
+> levels(f)
+[1] "Joe"  "Bob"  "Mary"
+> f
+ [1] Joe  Bob  Mary <NA> Joe  Bob  Bob  <NA> Mary <NA> Mary
+Levels: Joe Bob Mary
+> fo = ordered(x, levels=c("Mary", "Poppy", "Chan"))
+> fo
+ [1] <NA>  <NA>  Mary  Chan  <NA>  <NA>  <NA>  Chan  Mary  Poppy Mary 
+Levels: Mary < Poppy < Chan
+> fo = ordered(x, levels=c("Mary", "Poppy", "Chan", "Joe"))
+> fo
+ [1] Joe   <NA>  Mary  Chan  Joe   <NA>  <NA>  Chan  Mary  Poppy Mary 
+Levels: Mary < Poppy < Chan < Joe
+> fo = ordered(x, levels=c("Mary", "Poppy", "Chan", "Joe", "Bob"))
+> fo
+ [1] Joe   Bob   Mary  Chan  Joe   Bob   Bob   Chan  Mary  Poppy Mary 
+Levels: Mary < Poppy < Chan < Joe < Bob
+> 
+> l1 = list(firstname=c("Apple", "Judy", "Mei"), age=c(56, 61, 44))
+> l1
+$firstname
+[1] "Apple" "Judy"  "Mei"  
+
+$age
+[1] 56 61 44
+
+> l1$age
+[1] 56 61 44
+> l1[[age]]
+Error: object 'age' not found
+> l1[age]
+Error: object 'age' not found
+> l1[$age]
+Error: unexpected '$' in "l1[$"
+> l1[[$age]]
+Error: unexpected '$' in "l1[[$"
+> l1[[2]]
+[1] 56 61 44
+> l1[[1]]
+[1] "Apple" "Judy"  "Mei"  
+> names = l1[[1]]
+> names
+[1] "Apple" "Judy"  "Mei"  
+> l1[[2]] = c(12,15,21)
+> l1
+$firstname
+[1] "Apple" "Judy"  "Mei"  
+
+$age
+[1] 12 15 21
+
+> names(l1)
+[1] "firstname" "age"      
+> names(l1) = c("First Name", "Age")
+> l1
+$`First Name`
+[1] "Apple" "Judy"  "Mei"  
+
+$Age
+[1] 12 15 21
+
+> l1
+$`First Name`
+[1] "Apple" "Judy"  "Mei"  
+
+$Age
+[1] 12 15 21
+
+> l1 = append(l1, "Xi", after=1)
+> l1
+$`First Name`
+[1] "Apple" "Judy"  "Mei"  
+
+[[2]]
+[1] "Xi"
+
+$Age
+[1] 12 15 21
+
+> names(l1) = c("First Name", "Last Name", "Age")
+> l1
+$`First Name`
+[1] "Apple" "Judy"  "Mei"  
+
+$`Last Name`
+[1] "Xi"
+
+$Age
+[1] 12 15 21
+
+> append(l1$`Last Name`, "Chen", "Wu")
+Error in !after : invalid argument type
+> l1$`Last Name`
+[1] "Xi"
+> append(l1$`Last Name`, "Chen", "Wu")
+Error in !after : invalid argument type
+> 
+> 
+> l1$`Last Name`[2] = "Chen"
+> l1$`Last Name`[3] = "Wu"
+> l1
+$`First Name`
+[1] "Apple" "Judy"  "Mei"  
+
+$`Last Name`
+[1] "Xi"   "Chen" "Wu"  
+
+$Age
+[1] 12 15 21
+
+> append(l1$`Last Name`, "Chia", after=3)
+[1] "Xi"   "Chen" "Wu"   "Chia"
+> l1
+$`First Name`
+[1] "Apple" "Judy"  "Mei"  
+
+$`Last Name`
+[1] "Xi"   "Chen" "Wu"  
+
+$Age
+[1] 12 15 21
+
+> l1 = append(l1$`Last Name`, "Chia", after=3)
+> l1
+[1] "Xi"   "Chen" "Wu"   "Chia"
+> l1 = append(l1[[1]], "Twinkle", after=3)
+> l1
+[1] "Xi"      "Twinkle"
+> l1
+[1] "Xi"      "Twinkle"
+> 
+> l1
+[1] "Xi"      "Twinkle"
+> l1[[2]]
+[1] "Twinkle"
+> l1[[3]]
+Error in l1[[3]] : subscript out of bounds
+> l1[[1]]
+[1] "Xi"
+> l1$`First Name`
+Error in l1$`First Name` : $ operator is invalid for atomic vectors
+> 
+> 
+> typeof(l1)
+[1] "character"
+> mode(l1)
+[1] "character"
+> class(l1)
+[1] "character"
+> is.list(l1)
+[1] FALSE
+> l1 = list(firstname=c("Apple", "Judy", "Mei"), age=c(56, 61, 44))
+> l1
+$firstname
+[1] "Apple" "Judy"  "Mei"  
+
+$age
+[1] 56 61 44
+
+> typeof(l1)
+[1] "list"
+> class(list)
+[1] "function"
+> mode(list)
+[1] "function"
+> unclass(l1)
+$firstname
+[1] "Apple" "Judy"  "Mei"  
+
+$age
+[1] 56 61 44
+
+> l1
+$firstname
+[1] "Apple" "Judy"  "Mei"  
+
+$age
+[1] 56 61 44
+
+> c3 = c("a","a","b","c","b","c", "b", "c", "c", "a", "b")
+> c3
+ [1] "a" "a" "b" "c" "b" "c" "b" "c" "c" "a" "b"
+> c3 = factor(c3)
+> c3
+ [1] a a b c b c b c c a b
+Levels: a b c
+> c3 = factor(c3, levels=c("a","b"))
+> c3
+ [1] a    a    b    <NA> b    <NA> b    <NA> <NA> a    b   
+Levels: a b
+> 
+> 
+> c3 = factor(c3, levels=c("a",1))
+> c3
+ [1] a    a    <NA> <NA> <NA> <NA> <NA> <NA> <NA> a    <NA>
+Levels: a 1
+> typeof(a)
+[1] "integer"
+> mode(c3)
+[1] "numeric"
+> typeof(c3)
+[1] "integer"
+> class(c3)
+[1] "factor"
+> 
+> 
+> unclass(c3)
+ [1]  1  1 NA NA NA NA NA NA NA  1 NA
+attr(,"levels")
+[1] "a" "1"
+> c3 = factor(c3, levels=c("a","b", "c"))
+> c3
+ [1] a    a    <NA> <NA> <NA> <NA> <NA> <NA> <NA> a    <NA>
+Levels: a b c
+> unclass(c3)
+ [1]  1  1 NA NA NA NA NA NA NA  1 NA
+attr(,"levels")
+[1] "a" "b" "c"
+> c4 = factor(c=(1,2,3,2,1,2,2,3), levels=c(1,2,3))
+Error: unexpected ',' in "c4 = factor(c=(1,"
+> c4 = factor(c(1,2,3,2,1,2,2,3), levels=c(1,2,3))
+> c4
+[1] 1 2 3 2 1 2 2 3
+Levels: 1 2 3
+> 
+> 
+> levels(c4) = c("Red", "Blue", "Green")
+> c4
+[1] Red   Blue  Green Blue  Red   Blue  Blue  Green
+Levels: Red Blue Green
+> 
+> 
+> 
