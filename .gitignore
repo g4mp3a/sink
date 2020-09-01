@@ -21,3 +21,171 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+
+opt_resources
+*.pyc
+resources/namespace.yaml
+.DS_Store
+*.orig
+*.orig
+
+training/training_output/
+*-model-building-code.zip
+.DS_store
+custom_assets/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyCharm
+.idea/
+*.iml
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# dotenv
+.env
+
+# virtualenv
+.venv
+venv/
+ENV/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.idea/
+.pytest_cache/
+
+# local build files
+static/
+assets/data/
+
+.DS_Store
+2-deploying-to-openshift/deployment-template.yaml.1
+2-deploying-to-openshift/deployment-template.yaml.2
+2-deploying-to-openshift/target
+2-deploying-to-openshift/.settings/org.eclipse.m2e.core.prefs
+2-deploying-to-openshift/.classpath
+2-deploying-to-openshift/.project
+2-deploying-to-openshift/.settings/org.eclipse.core.resources.prefs
+2-deploying-to-openshift/.settings/org.eclipse.jdt.apt.core.prefs
+2-deploying-to-openshift/.settings/org.eclipse.jdt.core.prefs
+
+nbactions.xml
+target
+
+Icon?
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+*~
+
+
+# npm
+node_modules
+package-lock.json
+*.log
+*.gz
+
+
+# Coveralls
+coverage
+
+# Benchmarking
+benchmarks/graphs
+
+.vscode/
+.env
