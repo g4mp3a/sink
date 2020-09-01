@@ -1,0 +1,9 @@
+{
+    "authorName": "Dartagnan",
+    "name": "MAX Object Detector",
+    "description": "Deploy on IBM Cloud ML Service Instance",
+    "frameworkName": "tensorflow",
+    "frameworkVersion": "1.13",
+    "runtime_name": "python",
+    "runtime_version": "3.6"
+}

@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: translatorapp
+  labels:
+    app: translatorapp
+spec:
+  selector:
+    app: translatorapp
+  ports:
+    - port: 3000
+      name: http
+  type: NodePort
