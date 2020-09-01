@@ -1,0 +1,19 @@
+PROJECT_ID=universal-code-210021
+BUCKET_ID=exercise-lil/predictive
+JOB_NAME="propensity_train$(date +"%Y%m%d_%H%M%S")"
+JOB_DIR=gs://$BUCKET_ID/propensity_train_job_dir
+TRAINING_PACKAGE_PATH="/home/kumaran/propensity_trainer/"
+MAIN_TRAINER_MODULE="propensity_trainer.propensity-cloud"
+REGION=us-central1
+RUNTIME_VERSION=1.9
+PYTHON_VERSION=2.7
+SCALE_TIER=BASIC
+
+gcloud ml-engine jobs submit training $JOB_NAME \
+  --job-dir $JOB_DIR \
+  --package-path $TRAINING_PACKAGE_PATH \
+  --module-name $MAIN_TRAINER_MODULE \
+  --region $REGION \
+  --runtime-version=$RUNTIME_VERSION \
+  --python-version=$PYTHON_VERSION \
+  --scale-tier $SCALE_TIER

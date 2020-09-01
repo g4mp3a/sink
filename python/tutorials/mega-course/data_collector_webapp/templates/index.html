@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Survey</title>
+    <link href="../static/main.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Height Survey</h1>
+        <h3>Please provide your height in centimeters and your email below.</h3>
+        <div class="notification-container">
+            {{text | safe}}
+        </div>
+        <form action="{{url_for('success')}}" method="POST" enctype="multipart/form-data" >
+            <input title="Your email will be safe with us." placeholder="Enter your email address" type="email" name="name_email">
+            <br>
+            <input title="Your data will be safe with us." placeholder="Enter your height in cm." type="number" min="50" max="300" name="name_height">
+            <br>
+            <!--<input title="Select file to upload." type="file" name="file">
+            <br>-->
+            <button type="submit">Submit</button>
+        </form>
+        <!--{% include btn ignore missing %}-->
+    </div>
+</body>
+</html>

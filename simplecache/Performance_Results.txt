@@ -1,0 +1,149 @@
+Concurrent Loads on MutableEntityTagCache
++++++++++++++++++++++++++++++++++++++++++
+100 threads each making a 1000*1000 reads and writes
+
+Test 100 Thread Concurrency and 1,000,000 Puts
+==============================================
+Ehcache (ms): 32865247
+MutableEntityTagCache (ms): 9475527
+
+Test 100 Thread Concurrency and 1,000,000 Puts
+==============================================
+Ehcache (ms): 35115881
+MutableEntityTagCache (ms): 10240641
+
+Test 100 Thread Concurrency and 1,000,000 Gets
+==============================================
+Ehcache (ms): 1942894
+MutableEntityTagCache (ms): 1922211
+
+100 threads each making a 10*1000 reads and writes
+
+Test 100 Thread Concurrency and 10,000 Puts
+==============================================
+Ehcache (ms): 322474
+MutableEntityTagCache (ms): 52656
+
+Test 100 Thread Concurrency and 10,000 Puts
+==============================================
+Ehcache (ms): 205939
+MutableEntityTagCache (ms): 35033
+
+Test 100 Thread Concurrency and 10,000 Gets
+==============================================
+Ehcache (ms): 1385
+MutableEntityTagCache (ms): 712
+
+
+Single Thread Loads on MutableEntityTagCache
++++++++++++++++++++++++++++++++++++++++++++++
+Test 1,000,000 entries
+===================
+Write performance
+Ehcache (ms): 2818
+MutableEntityTagCache (ms): 518
+***********
+Read performance
+Ehcache (ms): 594
+MutableEntityTagCache (ms): 92
+***********
+Update performance
+Ehcache (ms): 2392
+MutableEntityTagCache (ms): 525
+
+Test 100,000 entries
+===================
+Write performance
+Ehcache (ms): 320
+MutableEntityTagCache (ms): 76
+***********
+Read performance
+Ehcache (ms): 43
+MutableEntityTagCache (ms): 24
+***********
+Update performance
+Ehcache (ms): 95
+MutableEntityTagCache (ms): 32
+
+Test 10,000 entries
+===================
+Write performance
+Ehcache (ms): 6
+MutableEntityTagCache (ms): 1
+***********
+Read performance
+Ehcache (ms): 2
+MutableEntityTagCache (ms): 1
+***********
+Update performance
+Ehcache (ms): 6
+MutableEntityTagCache (ms): 1
+
+Single Thread Loads on ReadOnlyEntityTagCache
++++++++++++++++++++++++++++++++++++++++++++++
+Test 1,000,000 entries
+===================
+Write performance
+Ehcache (ms): 2816
+ReadOnlyEntityTagCache (ms): 2600
+***********
+Read performance
+Ehcache (ms): 616
+ReadOnlyEntityTagCache (ms): 37
+
+Test 100,000 entries
+===================
+Write performance
+Ehcache (ms): 128
+ReadOnlyEntityTagCache (ms): 126
+***********
+Read performance
+Ehcache (ms): 47- 
+ReadOnlyEntityTagCache (ms): 3
+
+Test 10,000 entries
+===================
+Write performance
+Ehcache (ms): 5
+ReadOnlyEntityTagCache (ms): 0
+***********
+Read performance
+Ehcache (ms): 1
+ReadOnlyEntityTagCache (ms): 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

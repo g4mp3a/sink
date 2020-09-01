@@ -1,0 +1,168 @@
+Assignment 1
+
+100M integers = 100 * 1000 * 1000 * 32 / 8 = 400 MB
+If we use a map based cache which will offer O(1) read and write times, that is amount of memory we would need for all the numbers
+
+We could consider a strategy that does away with the need to store the numbers all together if memory is really scarce. One strategy is to use array indices to encode the numbers and the elements of the array would be a String[] containing the tags corresponding to the id encoded in the index. For example - 
+get(123) would return the value stored in cache[1][2][3].
+We can use a multi-dimensional array where each element is an array of Strings (tags). However, such a solution would not be able to offer O(1) reads and writes. In the worst case for 100M entries, we would need an array like below -
+String[] [10][10][10][10][10][10][10][10]. When creating the array, we would have to dynamically add dimensions as needed; reading and writing from/into the array will be dependent on the number of digits in the key. While this may save us some memory, it would not be as performant; hence, should not choose this option unless a map based solution is guaranteed to be impractical for the problem.
+
+What would the average length of a tag be?
+5000 unique strings, each string 3 characters long on average = 5000 * 3 * 16 / 8 = 30KB
+
+A limit of 5000 unique tags in 100 M entities, each entity having multiple tags => a lot of duplication in tags
+Thus, interning the tag strings would be a good idea to optimize the memory needed for all the tags. Per my knowledge, interned strings are stored in the young and old generations of the heap now (hotspot onwards) as opposed to the perm generation. I am assuming that it would be safe to use 30KB of storage for the tag strings.
+
+Address space of a 32 bit JVM = 
+a. 1.4G to 1.6G on most Win systems
+b. 2G on 32 bit solaris
+c. Approaching 4G on 64 bit solaris running 32bit JVM
+
+Address space of a 64 bit JVM is much larger
+References: http://www.oracle.com/technetwork/java/hotspotfaq-138619.html
+
+Cache is warmed and prepared during startup. Thereafter the cache is not updated. Also, per requirements, we MUST store all data in memory all the time; throwing an OOM error should we run out of available memory during cache creation. There is no need for a cache eviction policy such as those needed in a LRU cache for example.
+=> 
+The cache is READ ONLY; updates are not permitted and cache entry eviction is not happening either. 
+=>
+There is no need for synchronization even in the face of multi-threaded access when use of the cache is only permitted post completion of cache creation. Adding this constraint, would greatly simplify implementation by removing the need for synchronization resulting in big performance gains.  
+
+*****************
+Assignment 2
+To allow for thread safe updates of existing tags, and to avoid stale reads, we need synchronize access. One way to achieve this would be to use a high performant thread safe map like ConcurrentHashMap
+Do updates need to be persistent - should updates be written back to the file used to create the cache?
+
+*****************
+In both cases, cache entries never expire and hence no need to maintain TTL either
+In both cases, cache size is not set by the client of the cache
+In both cases, assuming that it is acceptable to take ~20-30 seconds to read in a really large number of entries - file size >  100M
+
+In both cases, maps are stored in main memory which is ~100 nano seconds away
+
+With more information, we set an initial capacity and load factor for the hash maps to help improve performance
+
+Proposals for other methods that would enhance the experience of the API
+
+    /**
+     * Clears all the entries in the cache regardless of any conditions.
+     */
+    void clear();
+
+    /**
+     * Removes an entry from the cache using the key K. Returns true, if the
+     * remove operation is successful. Else, returns false.
+     *
+     * @param key
+     *            The handle of the entry that has to be removed.
+     * @return Returns true, if the removal of the entry from the cache is
+     *         successful. Else returns false.
+     */
+    boolean remove(K key);
+
+    /**
+     * Removes an entry from the cache using the key K. Returns object that has
+     * been removed. If the operation is not successful, returns <code>null</code>.
+     *
+     * @param key
+     *            The handle of the entry that has to be removed.
+     * @return Returns object that has
+     * been removed. If the operation is not successful, returns <code>null</code>
+     */
+    V removeAndGet(K key);
+
+    /**
+     * @return Returns the size of the cache.
+     */
+    int size();
+
+
+*********** Memory analysis ************************************************************************************************** 
+Per Friday’s conversation, completing a sketch of memory needs
+******************************************************************************************************************************
+<< Simplifying calculations by assuming 1000 bytes = 1 KB and 1000 KB = 1 MB and 1000 MB = 1GB and so on >>
+Local variables are stored on the stack. Instance variables and static variables are stored on the heap. Values of reference type variables are references. Arrays are reference types => values of int [] are stored on the heap.
+
+64 bit JVM on 64 bit system
+=====================
+Size of a reference
+Object references are 32 bits on a 32 bit system. On 64 bit systems they are typically 64 bits. However, the HotSpot VM with Java 6u25 and surely Java 7 and later use compressed ordinary object pointers by default (this feature can be enabled in prior versions using -XX:+UseCompressedOops) - https://wikis.oracle.com/display/HotSpotInternals/CompressedOops. Compressed oops are 32 bit object offsets from the 64 bit Java heap base address. For heap sizes up to around 26GB, most systems can allocate the java heap at virtual address 0. For heap sizes less than 4 gigabytes, the JVM can use a byte offset instead of an object offset and thus also avoid scaling the offset by 8. These mechanisms greatly reduce the amount of space needed for java object references (and the speed of memory access)
+=>
+Object references use 32 bits or 4 bytes using compressed oops 
+
+Size of an Object header = 8 bytes for klass word + 8 bytes for mark word =16 bytes
+Using compressedoops, for heaps smaller than 32GB the klass word is encoded using only 4 bytes of memory, however, the mark word is a native pointer using 8 bytes of memory. So an empty object will use 8+4 bytes + 4 bytes of padding = 16 bytes. 
+Assume we are using compressedoops
+=>
+Object headers use 12 bytes of memory
+Arrays will use 12 bytes for header + 4 bytes for length = 16 bytes of memory
+
+For 32 bit JVMs on 32 bit systems
+Object header use 4 for mark word + 4 for klass word = 8 bytes
+Array header will use 4 + 4 + 4 (for length) = 12 bytes
+
+In calculations below, assume using compressed oops and a 64 bit JVM on a 64 bit system
+A int value uses 32 bits
+=> Memory used by 100M int values = 100 * 1000 * 1000 * (32 / 8) bytes = 400 MB = ~ 0.4 GB
+However, we will need to use the wrapper Integer type to key the hash map. 
+Memory needed by one Integer object = 12 bytes for the header + 4 bytes for the number = 16 bytes
+=>
+Total memory needed by 100M Integer objects = 100 * 1000 * 1000 * 16 bytes = ~ 1.6 GB
+
+A String stores its value as a sequence of chars. 1 char is 2 bytes. A String object contains 3 int values and the char[] (assuming)
+=>
+Size of a String object representing a typical tag (average size 3 chars) = 12 bytes for header + 3 * 4 = 12 bytes for the ints + 4 bytes for the char[] reference + 16 bytes (12 for header + 4 for length) for char[] + 3 • 2 = 6 bytes for the 3 chars =  50 bytes + 6 bytes of padding (to align to a multiple of 8) = 56 bytes
+=>
+Total memory needed by 5000 unique Strings = 5000 * 56 bytes = 0.28 MB
+
+=> Total memory needed for 100M Integer objects + 5000 unique Strings = 1.6 GB + 0.28 MB = ~ 1.6 GB
+
+Memory needed by the HashMap
+HashMap is built on top of an array of Map.Entry ( a good assumption ).
+
+Size of Entry[]
+Entry[], reference itself, will need 12 + 4 = 16 bytes
+Each reference value in Entry[] will need 4 bytes. The size of Entry[] = capacity of Map = 100M (assuming a load factor of 1).
+=>
+Total memory needed by Entry[] = 16 + 100 * 1000 * 1000 * 4 bytes = ~ 0.4 GB
+
+Size of an Entry object
+Entry contains references to a key, a value, int hash of the key, and a pointer to the next Entry.
+=> 
+Size of 1 Entry object = 12 bytes for header + 4 bytes + 4 bytes + 4 bytes + 4 bytes = 28 + 4 bytes of padding = 32 bytes
+=>
+Total memory needed for 100M Entry objects = 100 * 1000 * 1000 * 32 bytes = ~ 3.2 GB
+
+HashMap also contains
+3 int fields: size, threshold, modCount = 3 * 4 = 12 bytes
+1 float field: loadFactor = 4 bytes
+3 Object references = 3 * 4 bytes  = 12 bytes
+// from Abstract Map
+transient volatile Set<K> keySet = null;
+transient volatile Collection<V> values = null;
+// from HashMap
+private transient Set<Map.Entry<K,V>> entrySet = null;
+=>
+Total memory needs of just the HashMap is insignificant in this calculation
+
+Size of value objects = Memory needed by 100M List<String> objects
+ArrayList is built on top of an Object[]. Size of the Object[] reference type = 4 bytes
+ArrayList needs 1 int for size = 4 bytes
+Memory needed by the ArrayList object header = 12 bytes
+=>
+Memory needed by the List object alone = 4 + 4 + 12 = 20 bytes
+
+Memory needed by the Object[] =  3 (capacity of List) * 4 (Size of 1 Object reference type) = 12 bytes
+=>
+Size of 1 List object = 32 bytes
+
+=>
+Total size of 100M List objects = 100 * 1000 * 1000 * 32 bytes = 3.2 GB
+
+Therefore to cache 100M object tags, we would need approximately 1.6 + 0.4 + 3.2 + 3.2 = ~ 8.4 GB of heap memory
+This value is obtained assuming - 
+Object headers use 12 bytes of memory
+[] types use 16 bytes of memory = 12 header + 4 for int length 
+Reference types use 4 bytes of memory
+and the implementation details assumed about the HashMap above
+******************************************************************************************************************************************
