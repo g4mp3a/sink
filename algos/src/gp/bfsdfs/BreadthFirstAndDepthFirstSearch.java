@@ -44,10 +44,6 @@ public class BreadthFirstAndDepthFirstSearch {
       if (target==node.value)
         return true;
 
-      if (node.isLeafNode()) {
-        continue;
-      }
-
       if (node.left!=null) {
         queue.add(node.left);
       }
@@ -71,10 +67,6 @@ public class BreadthFirstAndDepthFirstSearch {
       if (target==node.value)
         return true;
 
-      if (node.isLeafNode()) {
-        continue;
-      }
-
       if (node.left!=null) {
         stack.push(node.left);
       }
@@ -86,4 +78,58 @@ public class BreadthFirstAndDepthFirstSearch {
 
     return false;
   }
+  
+  public static levelOrderTraversal(BinaryTreeNode root) {
+    
+    final Queue<BinaryTreeNode> queue=new LinkedList<>();
+    queue.add(root);
+    while (!queue.isEmpty()) {
+      
+      final BinaryTreeNode node=queue.poll();
+      visitNode(node);
+      
+      if (node.left!=null) {
+        queue.add(node.left);
+      }
+      if (node.right!=null) {
+        queue.add(node.right);
+      }
+    }
+    
+  }
+  
+  public static levelOrderTraversalJhinchak(BinaryTreeNode root) {
+    
+    final Deque<BinaryTreeNode> stack=new ArrayDeque<>();
+    stack.push(root);
+    boolean left = true;
+    while (!stack.isEmpty()) {
+      
+      final BinaryTreeNode node=stack.pop();
+      visitNode(node);
+      
+      if (left) {
+        if (node.left!=null) {
+          stack.push(node.left);
+        }
+        if (node.right!=null) {
+          stack.push(node.right);
+        }
+      } else {
+        if (node.right!=null) {
+          stack.push(node.right);
+        }
+        if (node.left!=null) {
+          stack.push(node.left);
+        }
+      }
+      
+      left = !left;
+    }
+  }
+  
+  public static visitNode(BinaryTreeNode node) {
+    System.out.println(node);
+  }
+  
 }
