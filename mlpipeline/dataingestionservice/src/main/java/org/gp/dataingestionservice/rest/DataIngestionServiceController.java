@@ -1,4 +1,4 @@
-package dataingestionservice.rest;
+package org.gp.dataingestionservice.rest;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class DataIngestionServiceController {
   }
 
   /**
-   * Invoke this endpoint to pull data from source.
+   * Endpoint to pull data from source.
    */
   @PostMapping("/pull")
   public void pull(

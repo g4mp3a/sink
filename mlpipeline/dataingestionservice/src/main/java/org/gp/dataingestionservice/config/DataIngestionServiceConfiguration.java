@@ -1,4 +1,4 @@
-package dataingestionservice.config;
+package org.gp.dataingestionservice.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
